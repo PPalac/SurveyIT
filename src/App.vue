@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <md-app>
-      <md-app-drawer id='md-drawer' md-permanent="card">
+      <md-app-drawer id='md-drawer' md-permanent="card" v-if="isLoggedIn">
         <md-toolbar class="md-primary">
           <md-title md-large>
             <md-button to="/" class="md-dense">
@@ -28,21 +28,24 @@
         <router-view/>
       </md-app-content>
   </md-app>
+    <div class="footer">
+      <label>Jakaś tam testowa stopka &copy</label>
+    </div>
   </div>
 </template>
 
 <style>
-#app {
+.md-app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 90vh;
 }
 #md-drawer{
   border: 1px solid rgba(#303030);
   background:  #A9BCD0;
-  height: 90vh;
 }
 .md-app {
     max-height: 100vh;
@@ -62,3 +65,14 @@
   background: #2c3e50
 }
 </style>
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  data(){
+    return{
+      isLoggedIn:false
+    }
+  }
+})
+</script>
+

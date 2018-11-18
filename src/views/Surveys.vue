@@ -1,6 +1,6 @@
 <template>
 <div>
-  <md-list>
+  <md-list class="md-list">
     <md-list-item v-for="tweet in tweets" :key="tweet.id">
     <md-card md-with-hover class="md-elevation-10">
       <md-ripple>
@@ -34,6 +34,10 @@
     vertical-align: top;
     text-align: center;
     background: #336699
+  };
+  .md-list{
+    margin: auto;
+    width: 60vw;
   }
 </style>
 
