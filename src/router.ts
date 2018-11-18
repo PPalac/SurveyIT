@@ -44,7 +44,7 @@ export default router;
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user');
+  const loggedIn = localStorage.getItem('isLoggedIn');
 
   if (authRequired && !loggedIn) {
     return next('/login');

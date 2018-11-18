@@ -29,7 +29,7 @@
       </md-app-content>
   </md-app>
     <div class="footer">
-      <label>Jakaś tam testowa stopka &copy</label>
+      <label>Jakaś tam testowa stopka &copy;</label>
     </div>
   </div>
 </template>
@@ -70,9 +70,11 @@ import Vue from 'vue'
 export default Vue.extend({
   data(){
     return{
-      isLoggedIn:false
+      get isLoggedIn() {
+        return localStorage.getItem('isLoggedIn') || 0;
+      },
     }
-  }
+  },
 })
 </script>
 

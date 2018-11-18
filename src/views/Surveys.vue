@@ -43,6 +43,7 @@
 
 <script>
 import Vue from 'vue';
+import Axios from 'axios';
 
 const tweets = [
   {
@@ -118,13 +119,20 @@ const tweets = [
     likes: 18,
   },
 ]
-
 export default {
   name: 'Surveys',
   data() {
     return{
       tweets
       }
-  }
+  },
+  methods:{
+    getSurveys: function(){
+      Axios.get('http://localhost:1337/api/Group/Display', {withCredentials: true}).then(r => console.log(r)).catch(e => console.log(e));
+    },    
+  },
+  beforeMount(){
+      this.getSurveys();
+    }
 }
 </script>

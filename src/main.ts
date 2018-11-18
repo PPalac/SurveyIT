@@ -4,6 +4,7 @@ import router from './router';
 import {MdButton, MdApp, MdDrawer, MdToolbar, MdList, MdIcon, MdContent,
 MdTabs, MdCard, MdTitle, MdRipple, MdAvatar, MdField, MdMenu, MdSnackbar,
 MdProgress} from 'vue-material/dist/components';
+import axios from 'axios';
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default-dark.css';
 
@@ -23,6 +24,8 @@ Vue.use(MdField);
 Vue.use(MdMenu);
 Vue.use(MdSnackbar)
 Vue.use(MdProgress);
+
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 new Vue({
   router,
