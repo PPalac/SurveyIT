@@ -1,5 +1,5 @@
 <template>
-<div class="loginForm md-md-layout md-card"> 
+<div class="loginForm md-layout md-card"> 
     <md-field>
       <label>Login</label>
       <md-input v-model="loginModel.username"></md-input>
@@ -9,9 +9,9 @@
       <label>Password toggle</label>
       <md-input v-model="loginModel.password" type="password"></md-input>
     </md-field>
-    <div class="md-md-layout">
-        <md-button class="md-layout-item md-elevation-14 right-alignment" v-on:click="login">Login</md-button>  
+    <div class="md-layout">
         <md-button class="md-layout-item router-link-exact-active">Zarejestruj się</md-button> 
+        <md-button class="md-layout-item md-elevation-14 md-alignment-center-right md-small" v-on:click="login">Login</md-button>  
     </div>
   </div>
 </template>
@@ -38,7 +38,8 @@ var loginModel = {
           if (r.status == 200)
           {
             localStorage.setItem('isLoggedIn', 'true');
-            router.push('home');
+            localStorage.setItem('userRole', r.data);
+            router.push('/');
           }
           })
           .catch(e => console.log(e));

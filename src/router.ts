@@ -35,6 +35,26 @@ const router = new Router({
       path: '/account',
       name: 'account',
       component: () => import('./views/Account.vue'),
+    },
+    {
+      path: '/groups',
+      name: 'groups',
+      component: () => import('./views/Groups.vue')
+    },
+    {
+      path: '/addGroup',
+      name: 'addGroup',
+      component: () => import('./views/AddGroup.vue')
+    },
+    {
+      path: '/addSurvey',
+      name: 'addSurvey',
+      component: () => import('./views/AddSurvey.vue')
+    },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: () => import('./views/Reports.vue')
     }
   ],
 });
@@ -49,6 +69,9 @@ router.beforeEach((to, from, next) => {
   if (authRequired && !loggedIn) {
     return next('/login');
   }
+
+  if (loggedIn && to.path == '/login')
+     return next('/');
 
   next();
 })

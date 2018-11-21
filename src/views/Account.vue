@@ -28,7 +28,7 @@
           </div>
 
           <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
+            <!-- <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('gender')">
                 <label for="gender">Płeć</label>
                 <md-select name="gender" id="gender" v-model="form.gender" md-dense :disabled="sending">
@@ -38,14 +38,14 @@
                 </md-select>
                 <span class="md-error">The gender is required</span>
               </md-field>
-            </div>
+            </div> -->
 
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('age')">
-                <label for="age">Wiek</label>
-                <md-input type="number" id="age" name="age" autocomplete="age" v-model="form.age" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.age.required">The age is required</span>
-                <span class="md-error" v-else-if="!$v.form.age.maxlength">Invalid age</span>
+              <md-field :class="getValidationClass('password')">
+                <label for="password">Hasło</label>
+                <md-input type="password" id="password" name="password" v-model="form.password" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
+                <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
               </md-field>
             </div>
           </div>
@@ -81,12 +81,14 @@
     maxLength,
     minValue
   } from 'vuelidate/lib/validators'
+import Axios from 'axios';
 
   export default {
     name: 'Account',
     mixins: [validationMixin],
     data: () => ({
       form: {
+        id: null,
         firstName: null,
         lastName: null,
         gender: null,
@@ -107,14 +109,12 @@
           required,
           minLength: minLength(3)
         },
-        age: {
-          required,
-          maxLength: maxLength(3),
-          minValue: minValue(0)
+        password: {         
+          minLength: maxLength(6),
         },
-        gender: {
-          required
-        },
+        // gender: {
+        //   required
+        // },
         email: {
           required,
           email
@@ -135,18 +135,15 @@
         this.$v.$reset()
         this.form.firstName = null
         this.form.lastName = null
-        this.form.age = null
-        this.form.gender = null
+        this.form.password = null
+        //this.form.gender = null
         this.form.email = null
       },
       saveUser () {
         this.sending = true
 
         // Instead of this timeout, here you can call your API
-        window.setTimeout(() => {
-          
-          this.clearForm()
-        }, 1500)
+       Axios.post('http://localhost:1337/api/Account/Update', JSON.stringify(this.form) ,{withCredentials: true}).then(r => this.sending = false);
       },
       validateUser () {
         this.$v.$touch()
@@ -154,7 +151,11 @@
         if (!this.$v.$invalid) {
           this.saveUser()
         }
-      }
+      },
+    },
+
+    beforeMount: function(){
+      Axios.get('http://localhost:1337/api/Account/CurrentUser', {withCredentials: true}).then(r => {this.form = r.data.value;  console.log(this.form)});
     }
   }
 </script>

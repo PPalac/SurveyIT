@@ -3,25 +3,43 @@
     <md-app>
       <md-app-drawer id='md-drawer' md-permanent="card" v-if="isLoggedIn">
         <md-toolbar class="md-primary">
-          <md-title md-large>
-            <md-button to="/" class="md-dense">
-              <h1>SurveyIT</h1>
+            <md-button to="/" class="logo">
+              <h2>SurveyIT</h2>
             </md-button>
-          </md-title>
         </md-toolbar>
         <md-list style="background:transparent">
           <md-list-item class="menu-item md-elevation-10" to="surveys">
             <md-icon>check_box</md-icon>
-            <span class="md-list-item-text md-body-2">Nowe ankiety</span>
+            <span class="md-list-item-text md-body-2">Ankiety</span>
           </md-list-item>
-          <md-list-item class="menu-item md-elevation-10" to="history">
+          <md-list-item class="menu-item md-elevation-10" to="history" v-if="role == 'User'">
             <md-icon>history</md-icon>
             <span class="md-list-item-text md-body-2">Historia</span>
+          </md-list-item>
+          <md-list-item class="menu-item md-elevation-10" to="addSurvey" v-if="role == 'Admin'">
+            <md-icon>note_add</md-icon>
+            <span class="md-list-item-text md-body-2">Dodaj ankiete</span>
+          </md-list-item>
+          <md-list-item class="menu-item md-elevation-10" to="groups" v-if="role == 'Admin'">
+            <md-icon>group</md-icon>
+            <span class="md-list-item-text md-body-2">Grupy</span>
+          </md-list-item>
+          <md-list-item class="menu-item md-elevation-10" to="addGroup" v-if="role == 'Admin'">
+            <md-icon>group_add</md-icon>
+            <span class="md-list-item-text md-body-2">Dodaj grupe</span>
+          </md-list-item>
+          <md-list-item class="menu-item md-elevation-10" to="reports" v-if="role == 'Admin'">
+            <md-icon>poll</md-icon>
+            <span class="md-list-item-text md-body-2">Raporty</span>
           </md-list-item>
           <md-list-item class="menu-account-item md-elevation-10" to="account">
             <md-icon>account_box</md-icon>
             <span class="md-list-item-text md-body-2">Konto</span>
-          </md-list-item>         
+          </md-list-item>
+          <md-list-item class="menu-item md-elevation-10" v-on:click="logout">
+            <md-icon>open_in_new</md-icon>
+            <span class="md-list-item-text md-body-2">Wyloguj</span>
+          </md-list-item>           
         </md-list>
       </md-app-drawer>
       <md-app-content>
@@ -64,17 +82,35 @@
   margin-right: 10px;
   background: #2c3e50
 }
+
+.logo{
+ margin: auto;
+ background-size: cover;
+}
 </style>
 <script lang="ts">
 import Vue from 'vue'
+import router from './router';
+import Axios from 'axios';
+
 export default Vue.extend({
   data(){
     return{
       get isLoggedIn() {
         return localStorage.getItem('isLoggedIn') || 0;
       },
+      get role() {
+        return localStorage.getItem('userRole') || 0;
+      },
     }
   },
+  methods:{
+    logout: function(){
+      Axios.get('http://localhost:1337/api/Account/Logout', {withCredentials: true}).then(r => console.log(r));
+      localStorage.clear();
+      router.push('login');
+    }
+  }
 })
 </script>
 
