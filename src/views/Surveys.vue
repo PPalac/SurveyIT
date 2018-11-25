@@ -1,18 +1,15 @@
 <template>
 <div>
   <md-list class="md-list">
-    <md-list-item v-for="tweet in tweets" :key="tweet.id">
+    <md-list-item v-for="survey in surveys" :key="survey.item1">
     <md-card md-with-hover class="md-elevation-10">
       <md-ripple>
         <md-card-header>
-          <div class="md-title">{{tweet.name}}</div>
-          <md-avatar>
-          <img v-bind:src="tweet.img"/>
-          </md-avatar>
+          <div class="md-title">{{survey.item2}}</div>
         </md-card-header>
 
         <md-card-content>
-          {{tweet.tweet}}
+          {{survey.item2}}
         </md-card-content>
 
         <md-card-actions>
@@ -45,90 +42,16 @@
 import Vue from 'vue';
 import Axios from 'axios';
 
-const tweets = [
-  {
-    id: 1,
-    name: 'James',
-    handle: '@jokerjames',
-    img: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
-    tweet: 'If you don\'t succeed, dust yourself off and try again.',
-    likes: 10,
-  },
-  { 
-    id: 2,
-    name: 'Fatima',
-    handle: '@fantasticfatima',
-    img: 'https://semantic-ui.com/images/avatar2/large/molly.png',
-    tweet: 'Better late than never but never late is better.',
-    likes: 12,
-  },
-  {
-    id: 3,
-    name: 'Xin',
-    handle: '@xeroxin',
-    img: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-    tweet: 'Beauty in the struggle, ugliness in the success.',
-    likes: 18,
-  },
-  {
-    id: 3,
-    name: 'Xin',
-    handle: '@xeroxin',
-    img: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-    tweet: 'Beauty in the struggle, ugliness in the success.',
-    likes: 18,
-  },
-  {
-    id: 3,
-    name: 'Xin',
-    handle: '@xeroxin',
-    img: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-    tweet: 'Beauty in the struggle, ugliness in the success.',
-    likes: 18,
-  },
-  {
-    id: 3,
-    name: 'Xin',
-    handle: '@xeroxin',
-    img: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-    tweet: 'Beauty in the struggle, ugliness in the success.',
-    likes: 18,
-  },
-  {
-    id: 3,
-    name: 'Xin',
-    handle: '@xeroxin',
-    img: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-    tweet: 'Beauty in the struggle, ugliness in the success.',
-    likes: 18,
-  },
-  {
-    id: 3,
-    name: 'Xin',
-    handle: '@xeroxin',
-    img: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-    tweet: 'Beauty in the struggle, ugliness in the success.',
-    likes: 18,
-  },
-  {
-    id: 3,
-    name: 'Xin',
-    handle: '@xeroxin',
-    img: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-    tweet: 'Beauty in the struggle, ugliness in the success.',
-    likes: 18,
-  },
-]
 export default {
   name: 'Surveys',
   data() {
     return{
-      tweets
+      surveys: []
       }
   },
   methods:{
     getSurveys: function(){
-      Axios.get('http://localhost:1337/api/Group/Display', {withCredentials: true}).then(r => console.log(r)).catch(e => console.log(e));
+      Axios.get('http://localhost:1337/api/Survey/DisplayAll', {withCredentials: true}).then(r => {this.surveys = r.data; console.log(r.data)}).catch(e => console.log(e));
     },    
   },
   beforeMount(){

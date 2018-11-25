@@ -2,15 +2,15 @@
     <md-card md-with-hover>
         <div style="background:#303030; padding: 20px;">
         <md-field>
-            <label>{{question}}</label>
-            <md-input v-model="question.value"/>
+            <label>Pytanie</label>
+            <md-input v-model="question.Content"/>
         </md-field>
         <md-field>
             <label>Typ pytania</label>
-            <md-select v-model="question.questionType">
-                <md-option value="1">Zamknięte</md-option>
-                <md-option value="2">Zamknięte wielokrotnego wyboru</md-option>
-                <md-option value="3">Otwarte</md-option>
+            <md-select v-model="question.QuestionType">
+                <md-option value="0">Otwarte</md-option>
+                <md-option value="1">Zamknięte wielokrotnego wyboru</md-option>
+                <md-option value="2">Zamknięte</md-option>
             </md-select>
         </md-field>
         <md-field>
@@ -19,7 +19,7 @@
         </md-field>
         <md-field v-for="n in parseInt(aAmount)" :key="n">
             <label>Odpowiedź</label>
-            <md-input v-model="question.answers[n]"/>
+            <md-input v-model="question.Answers[n]"/>
         </md-field>
         </div>
     </md-card>
@@ -30,19 +30,14 @@ import Vue from "vue";
 import { Prop, Component } from "vue-property-decorator";
 
 
-// var question = {
-//     value: '',
-//     questionType: 0,
-//     answers: []
-// }
 
 @Component({
     props:{
         question:{
             default:{
-                value: '',
-                questionType: 0,
-                answers: []
+                Content: '',
+                QuestionType: 0,
+                Answers: []
             }
         }
     }

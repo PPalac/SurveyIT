@@ -3,17 +3,17 @@
         <md-card md-permanent="card">
             <md-field>
                 <label>Nazwa ankiety</label>
-                <md-input/>
+                <md-input v-model="surveyName"/>
             </md-field>
         </md-card>
         <md-content class="md-scrollbar">
-                    <AddSurveyComponent v-for="q in questions" :key="q.id"  v-bind:question="q" style="margin-top: 20px;"/>
+                    <AddSurveyComponent v-for="q in questions" :key="q.Id"  v-bind:question="q" style="margin-top: 20px;"/>
                     <md-button class="md-md-elevation-10" v-on:click="addAnswer">
                         <md-icon>add</md-icon>
                     </md-button>
         </md-content>
 
-        <md-button class="md-fab">
+        <md-button class="md-fab" v-on:click="saveSurvey">
         <md-icon>save</md-icon>
       </md-button>
     </div>
@@ -21,11 +21,13 @@
 
 <script>
 import AddSurveyComponent from '../components/AddSurveyComponent.vue'
+import Axios from 'axios';
 export default {
 
     data(){
         return{
-            questions: []
+            questions: [],
+            surveyName: ''
         }
     },
 
@@ -36,10 +38,32 @@ export default {
     methods:{
         addAnswer: function(){
             this.questions.push({
-                id: this.questions.length + 1,
-                value: '',
-                questionType: 0,
-                answers: []})
+                Id: this.questions.length + 1,
+                Content: '',
+                QuestionType: 0,
+                Answers: []})
+        },
+
+        saveSurvey: function(){
+
+            let survey = {
+                Name : this.surveyName,
+                Questions : []
+            }
+
+            for(var i = 0; i < this.questions.length; i++)
+            {
+                survey.Questions.push({Content: this.questions[i].Content, Answers: [], QuestionType: this.questions[i].QuestionType});
+
+                for(var k = 1; k < this.questions[i].Answers.length; k++)
+                {
+                    survey.Questions[i].Answers.push({Content: this.questions[i].Answers[k]})
+                }
+            }
+
+            console.log(JSON.stringify(survey));
+
+            Axios.post('http://localhost:1337/api/Survey/Create', JSON.stringify(survey), {withCredentials: true}).then(r => console.log(r));
         }
     }
 }
