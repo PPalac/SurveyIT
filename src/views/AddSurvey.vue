@@ -5,6 +5,7 @@
                 <label>Nazwa ankiety</label>
                 <md-input v-model="surveyName"/>
             </md-field>
+            <ChooseGroup v-bind:groups="groups" v-on:groupSelected="groupSelected"/>
         </md-card>
         <md-content class="md-scrollbar">
                     <AddSurveyComponent v-for="q in questions" :key="q.Id"  v-bind:question="q" style="margin-top: 20px;"/>
@@ -21,18 +22,22 @@
 
 <script>
 import AddSurveyComponent from '../components/AddSurveyComponent.vue'
+import ChooseGroup from '../components/ChooseGroup.vue'
 import Axios from 'axios';
 export default {
 
     data(){
         return{
             questions: [],
-            surveyName: ''
+            surveyName: '',
+            groups: [],
+            selectedGroup:[]
         }
     },
 
     components:{
-        AddSurveyComponent
+        AddSurveyComponent,
+        ChooseGroup
     },
 
     methods:{
@@ -44,11 +49,16 @@ export default {
                 Answers: []})
         },
 
+        groupSelected: function(groups){
+            this.selectedGroup = groups;
+        },
+
         saveSurvey: function(){
 
             let survey = {
                 Name : this.surveyName,
-                Questions : []
+                Questions : [],
+                GroupId: this.selectedGroup
             }
 
             for(var i = 0; i < this.questions.length; i++)
@@ -65,6 +75,10 @@ export default {
 
             Axios.post('http://localhost:1337/api/Survey/Create', JSON.stringify(survey), {withCredentials: true}).then(r => console.log(r));
         }
+    },
+
+    beforeMount: function(){
+        Axios.get('http://localhost:1337/api/Group/Display', {withCredentials: true}).then(r => this.groups = r.data);
     }
 }
 </script>
