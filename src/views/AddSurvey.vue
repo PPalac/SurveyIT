@@ -1,11 +1,23 @@
 <template>
     <div style="margin: auto; width:60vw;">
-        <md-card md-permanent="card">
+        <md-card md-permanent="card" style="padding: 20px;">
             <md-field>
                 <label>Nazwa ankiety</label>
                 <md-input v-model="surveyName"/>
             </md-field>
             <ChooseGroup v-bind:groups="groups" v-on:groupSelected="groupSelected"/>
+            <div class="md-layout md-gutter">
+                <md-field class="md-layout-item">                    
+                    <md-datepicker class="md-layout-item" v-model="startDate">
+                        <label>Data rozpoczęcia</label>
+                    </md-datepicker>
+                </md-field>
+                <md-field class="md-layout-item">                    
+                    <md-datepicker class="md-layout-item" v-model="endDate">
+                        <label>Data zakończenia</label>
+                    </md-datepicker>
+                </md-field>
+            </div>
         </md-card>
         <md-content class="md-scrollbar">
                     <AddSurveyComponent v-for="q in questions" :key="q.Id"  v-bind:question="q" style="margin-top: 20px;"/>
@@ -31,7 +43,9 @@ export default {
             questions: [],
             surveyName: '',
             groups: [],
-            selectedGroup:[]
+            selectedGroup:[],
+            startDate: '',
+            endDate: ''
         }
     },
 
@@ -58,7 +72,9 @@ export default {
             let survey = {
                 Name : this.surveyName,
                 Questions : [],
-                GroupId: this.selectedGroup
+                GroupId: this.selectedGroup,
+                Start_date: this.startDate,
+                End_date: this.endDate
             }
 
             for(var i = 0; i < this.questions.length; i++)

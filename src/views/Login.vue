@@ -10,7 +10,7 @@
       <md-input v-model="loginModel.password" type="password"></md-input>
     </md-field>
     <div class="md-layout">
-        <md-button class="md-layout-item router-link-exact-active">Zarejestruj się</md-button> 
+        <md-button class="md-layout-item router-link-exact-active" to="register">Zarejestruj się</md-button> 
         <md-button class="md-layout-item md-elevation-14 md-alignment-center-right md-small" v-on:click="login">Login</md-button>  
     </div>
   </div>
