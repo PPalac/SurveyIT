@@ -6,7 +6,7 @@
     </md-field>
 
     <md-field>
-      <label>Password toggle</label>
+      <label>Password</label>
       <md-input v-model="loginModel.password" type="password"></md-input>
     </md-field>
     <div class="md-layout">

@@ -60,6 +60,11 @@ const router = new Router({
       path: '/register',
       name: 'register',
       component: () => import('./views/Register.vue')
+    },
+    {
+      path: '/fill/:id',
+      name: 'fill',
+      component: () => import('./views/Fill.vue')
     }
   ],
 });

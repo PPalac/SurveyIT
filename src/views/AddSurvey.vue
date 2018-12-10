@@ -32,6 +32,17 @@
     </div>
 </template>
 
+<style scoped>
+.md-scrollbar {
+    max-height: 70vh;
+    overflow: auto;
+  }
+.md-fab{
+    position: absolute;
+    left: 85%;
+}
+</style>
+
 <script>
 import AddSurveyComponent from '../components/AddSurveyComponent.vue'
 import ChooseGroup from '../components/ChooseGroup.vue'
@@ -98,14 +109,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.md-scrollbar {
-    max-height: 70vh;
-    overflow: auto;
-  }
-.md-fab{
-    position: absolute;
-    left: 85%;
-}
-</style>
