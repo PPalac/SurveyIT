@@ -13,7 +13,7 @@
         </md-field>
         <md-field v-if="question.questionType == 0">
             <label>Odpowiedź</label>
-            <md-input v-model="question.answers[0]"/>
+            <md-input v-model="question.userAnswers[0]"/>
         </md-field>
         <div v-if="question.questionType == 1" class="md-layout">
             <div v-for="answer in question.answers" :key="answer.id" class="md-layout-item">
@@ -22,14 +22,14 @@
         </div>
          <div v-if="question.questionType == 2" class="md-layout">
             <div v-for="answer in question.answers" :key="answer.id" class="md-layout-item">
-                <md-checkbox v-model="question.userAnswers" v-bind:value="answer.content">{{answer.content}}</md-checkbox>
+                <md-radio v-model="question.userAnswers[0]" v-bind:value="answer.content">{{answer.content}}</md-radio>
             </div>
         </div>
         </div>
     </md-card>
         </md-content>
 
-        <md-button class="md-fab">
+        <md-button class="md-fab" v-on:click="sendSurvey">
         <md-icon>save</md-icon>
       </md-button>
     </div>
@@ -46,6 +46,7 @@
 </style>
 <script>
 import Axios from 'axios';
+import router from '../router';
 
 export default {
 
@@ -64,7 +65,36 @@ data(){
 
 methods:{
     getSurvey:function(){
-        Axios.get('http://localhost:1337/api/Survey/DisplayAll/DisplayOne?surveyId=' + this.$route.params.id, {withCredentials: true}).then(r => {this.survey = (r.data); console.log(r.data)});
+        Axios.get('http://localhost:1337/api/Survey/DisplayAll/DisplayOne?surveyId=' + this.$route.params.id, {withCredentials: true})
+        .then(r => 
+        {
+            this.survey = (r.data);
+            this.survey.questions.forEach(element => {
+                element.userAnswers = [];
+            });
+            console.log(r.data);
+        });
+    },
+
+    sendSurvey: function(){
+        let answers = {
+                  surveyId: this.survey.id,
+                  userAnswerModel: []
+        }
+
+        this.survey.questions.forEach(elem => {
+              elem.userAnswers.forEach(ans => {
+                  answers.userAnswerModel.push({
+                        content: ans,
+                        questionId: elem.id  
+                  })
+              });
+        });
+
+        console.log(answers);
+
+        Axios.post('http://localhost:1337/api/Survey/FillSurvey', JSON.stringify(answers), {withCredentials: true}).then(r => router.push('/surveys'))
+
     }
 },
 

@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import {MdButton, MdApp, MdDrawer, MdToolbar, MdList, MdIcon, MdContent,
 MdTabs, MdCard, MdRipple, MdAvatar, MdField, MdMenu, MdSnackbar,
-MdProgress, MdCheckbox, MdDatepicker, MdDialog} from 'vue-material/dist/components';
+MdProgress, MdCheckbox, MdDatepicker, MdDialog, MdRadio} from 'vue-material/dist/components';
 import axios from 'axios';
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default-dark.css';
@@ -27,6 +27,7 @@ Vue.use(MdProgress);
 Vue.use(MdCheckbox);
 Vue.use(MdDatepicker);
 Vue.use(MdDialog);
+Vue.use(MdRadio);
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
